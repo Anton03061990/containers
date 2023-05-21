@@ -1,23 +1,29 @@
-export default class Team {
-    constructor() {
-      this.members = new Set();
-    }
-  
-    add(character) {
-      if (this.members.has(character)) {
-        throw new Error(`${character} is already in the team.`);
-      } else {
-        this.members.add(character);
-      }
-    }
-  
-    addAll(...characters) {
-      characters.forEach((character) => {
-        this.members.add(character);
-      });
-    }
-  
-    toArray() {
-      return Array.from(this.members);
-    }
-  }
+import Team from '../app';
+
+test('Method adds a single character "Cat women"', () => {
+  const team = new Team();
+
+  team.add('Cat women');
+  expect(team.members).toContain('Cat women');
+});
+
+test('Method add throws an error if existing character "Cat women" is added', () => {
+  const team = new Team();
+
+  team.add('Cat women');
+  expect(() => team.add('Cat women')).toThrowError();
+});
+
+test('Method addAll adds several characters', () => {
+  const team = new Team();
+
+  team.addAll('Cat women', 'Wonder Woman', 'Batgirl');
+  expect(team.members).toContain('Cat women', 'Wonder Woman', 'Batgirl');
+});
+
+test('Method toArray converts set to array', () => {
+  const team = new Team();
+
+  team.addAll('Cat women', 'Wonder Woman', 'Batgirl');
+  expect(team.toArray()).toEqual(['Cat women', 'Wonder Woman', 'Batgirl']);
+});
